@@ -6,12 +6,8 @@ import com.sun.jdi.connect.LaunchingConnector;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.filechooser.FileSystemView;
 import java.awt.event.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.*;
 import java.net.MalformedURLException;
@@ -27,7 +23,6 @@ public class VisualTestingForm  extends JFrame {
     private JList list1;
     private JPanel VisualTestingForm;
     private JTextField filePath;
-    private JScrollPane board1;
     private JScrollPane board2;
     private JTextArea textArea;
     private File selectedFile;
@@ -36,7 +31,6 @@ public class VisualTestingForm  extends JFrame {
     private Method[] methods;
     private Object[] obj;
     private HashMap<String, Integer> hm;
-    private VirtualMachine vm;
     private MyThread mt;
     private MouseEvent me;
 
@@ -166,6 +160,7 @@ public class VisualTestingForm  extends JFrame {
         }
     }
     void Run_actionListener(ActionEvent e){
+        VirtualMachine vm;
         LaunchingConnector lc = Bootstrap.virtualMachineManager().defaultConnector();
         Map map = lc.defaultArguments();
         Connector.Argument ca = (Connector.Argument) map.get("main");
@@ -181,7 +176,7 @@ public class VisualTestingForm  extends JFrame {
             mt = new MyThread(vm, false, selectedFile.getName(), hm, this);
         }
         catch(Exception ex){
-            System.out.println(ex);
+            ex.printStackTrace();
         }
     }
 
@@ -226,15 +221,15 @@ public class VisualTestingForm  extends JFrame {
         String finalFormat="";
         for(int index=0; index<types.length; index++){
             if(types[index].getTypeName().equals("int")){
-                finalFormat=finalFormat+"int i"+String.valueOf(i++);
+                finalFormat=finalFormat+"int i"+ i++;
             }else if(types[index].getTypeName().equals("double")){
-                finalFormat=finalFormat+"double d"+String.valueOf(d++);
+                finalFormat=finalFormat+"double d"+ d++;
             }else if(types[index].getTypeName().equals("boolean")){
-                finalFormat=finalFormat+"boolean b"+String.valueOf(b++);
+                finalFormat=finalFormat+"boolean b"+ b++;
             }else if(types[index].getTypeName().equals("String")){
-                finalFormat=finalFormat+"String s"+String.valueOf(s++);
+                finalFormat=finalFormat+"String s"+ s++;
             }else {
-                finalFormat=finalFormat+types[index].getTypeName().replaceAll("java.lang.", "")+" k"+String.valueOf(k++);
+                finalFormat=finalFormat+types[index].getTypeName().replaceAll("java.lang.", "")+" k"+ k++;
             }
             if(index<types.length-1) finalFormat+=", ";
         }

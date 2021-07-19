@@ -59,7 +59,7 @@ public class MyThread extends Thread {
                     eventSet.resume();
                 }
             } catch (Exception exc) {
-                System.out.println(exc);
+                exc.printStackTrace();
             }
         }
     }
@@ -99,7 +99,7 @@ public class MyThread extends Thread {
                 }
             }
             catch(Exception e){
-                System.out.println(e);
+                e.printStackTrace();
             }
             return classPrepareEvent(event);
         } else if (event instanceof ClassUnloadEvent) {
